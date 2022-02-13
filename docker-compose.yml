@@ -1,0 +1,26 @@
+version: "3"
+services:
+  pickem2016_nginx:
+    image: blackswan/nginx
+    volumes:
+      - ${PWD}:/var/www/html
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - macmini
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pickem2016.entrypoints=web
+      - traefik.http.routers.pickem2016.rule=Host(`pickem2016.test`)
+      - traefik.http.routers.pickem2016.service=pickem2016
+      - traefik.http.services.pickem2016.loadbalancer.server.port=80
+  pickem2016_php:
+    image: blackswan/php8.1-fpm
+    volumes:
+      - ${PWD}:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - macmini
+networks:
+  macmini:
+    external: true
+
