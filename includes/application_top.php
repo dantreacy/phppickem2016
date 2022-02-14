@@ -1,5 +1,7 @@
 <?php
 // application_top.php -- included first on all pages
+require dirname(__DIR__) . '/vendor/autoload.php';
+
 require('includes/config.php');
 require('includes/functions.php');
 require('includes/classes/crypto.php');
@@ -50,10 +52,10 @@ if (!in_array(basename($_SERVER['PHP_SELF']), $okFiles)) {
 	session_start();
 	require('includes/classes/login.php');
 	$login = new Login;
-	
+
 	$adminUser = $login->get_user('admin');
 	//print_r($adminUser);
-		
+
 	if (empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 		header( 'Location: login.php' );
 		exit;
